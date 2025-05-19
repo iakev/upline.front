@@ -1,0 +1,8 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+echo "✅ Commit successful!"
+echo "🔎 Last commit details:"
+git log -1 --pretty=format:"%h - %s (%an, %ar)"
+echo ""
+

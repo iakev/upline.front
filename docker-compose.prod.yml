@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  front:
+    env_file:
+      - .env.prod
+    container_name: upline-frontend
+    command:  sh -c "npm run build && npm run start:pm2"
+

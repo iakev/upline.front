@@ -1,0 +1,18 @@
+# Use the official Microsoft Playwright Docker image as the base image
+FROM mcr.microsoft.com/playwright:v1.50.0-noble
+
+ARG DEBIAN_FRONTEND=noninteractive
+ARG TZ=Africa/Nairobi
+
+ENV LANG=C.UTF-8
+ENV LC_ALL=C.UTF-8
+
+# === INSTALL TEST DEPENDENCIES ===
+WORKDIR /usr/upline/front
+
+COPY package.json package-lock.json ./
+RUN npm ci
+
+# === COPY SOURCE CODE ===
+COPY . .
+

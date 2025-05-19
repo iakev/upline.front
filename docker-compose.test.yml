@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  # Service for the Vite frontend (dev environment to be tested)
+  front:
+    container_name: upline-frontend-dev-test
+    env_file:
+      - .env.test
+    ports:
+      - '5173:5173'
+    volumes:
+      - .:/usr/upline/front
+    command: sh -c "npm run dev"  # Start Vite server for testing
+
+  # Service for running tests
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile.test  # This is your Ubuntu-based test image
+    image: upline-frontend-tests
+    container_name: upline-frontend-tests
+    depends_on:
+      - front  # Ensure the frontend service is running before tests start
+    env_file:
+      - .env.test
+    networks:
+      - node-network
+    volumes:
+      - .:/usr/upline/front
+    command: ["sh", "-c", "npm run test:all"]  # Run all tests
+
+networks:
+  node-network:
+    driver: bridge
+
